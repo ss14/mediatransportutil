@@ -82,8 +82,14 @@ func GetLocalIPAddresses(includeLoopback bool, preferredInterfaces []string) ([]
 			switch typedAddr := addr.(type) {
 			case *net.IPNet:
 				ip = typedAddr.IP.To4()
+				if ip == nil {
+					ip = typedAddr.IP.To16()
+				}
 			case *net.IPAddr:
 				ip = typedAddr.IP.To4()
+				if ip == nil {
+					ip = typedAddr.IP.To16()
+				}
 			default:
 				continue
 			}
