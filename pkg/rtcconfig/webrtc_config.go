@@ -111,9 +111,11 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 	localIPs, _ := GetLocalIPAddresses(rtcConf.EnableLoopbackCandidate, nil)
 	logger.Infow("NewWebRTCConfig got", "localIPs", localIPs)
 
-	nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", "172.171.131.186", localIPs[0]))
-	nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", "10.224.0.11", localIPs[1]))
-	s.SetNAT1To1IPs(nat1to1IPs, webrtc.ICECandidateTypeHost)
+	if len(localIPs) == 2 {
+		nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", "172.171.131.186", localIPs[0]))
+		nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", localIPs[0], localIPs[1]))
+		s.SetNAT1To1IPs(nat1to1IPs, webrtc.ICECandidateTypeHost)
+	}
 
 	var udpMux ice.UDPMux
 	var err error
