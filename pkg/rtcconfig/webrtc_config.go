@@ -115,7 +115,7 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 		eth0IP := localIPs[0]
 		loIP := localIPs[1]
 		nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", eth0IP, loIP))
-		nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", rtcConf.NodeIP, eth0IP))
+		// nat1to1IPs = append(nat1to1IPs, fmt.Sprintf("%s/%s", rtcConf.NodeIP, eth0IP))
 		s.SetNAT1To1IPs(nat1to1IPs, webrtc.ICECandidateTypeHost)
 	}
 
