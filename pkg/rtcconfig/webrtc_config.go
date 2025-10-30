@@ -97,7 +97,8 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 			s.SetIPFilter(ipFilter)
 			if len(ips) == 0 {
 				logger.Infow("no external IPs found, using node IP and 10.224.0.11 for NAT1To1Ips", "ip", rtcConf.NodeIP)
-				s.SetNAT1To1IPs([]string{rtcConf.NodeIP, "10.224.0.11"}, webrtc.ICECandidateTypeHost)
+				s.SetNAT1To1IPs([]string{rtcConf.NodeIP,}, webrtc.ICECandidateTypeHost)
+				s.SetNAT1To1IPs([]string{"10.224.0.11"}, webrtc.ICECandidateTypeSrflx)
 			} else {
 				logger.Infow("using external IPs", "ips", ips)
 				s.SetNAT1To1IPs(ips, webrtc.ICECandidateTypeHost)
