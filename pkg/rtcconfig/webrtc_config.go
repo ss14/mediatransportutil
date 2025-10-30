@@ -96,8 +96,8 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 			ipFilter = newFilter
 			s.SetIPFilter(ipFilter)
 			if len(ips) == 0 {
-				logger.Infow("no external IPs found, using node IP for NAT1To1Ips", "ip", rtcConf.NodeIP)
-				s.SetNAT1To1IPs([]string{rtcConf.NodeIP}, webrtc.ICECandidateTypeHost)
+				logger.Infow("no external IPs found, using node IP and 10.224.0.11 for NAT1To1Ips", "ip", rtcConf.NodeIP)
+				s.SetNAT1To1IPs([]string{rtcConf.NodeIP, "10.224.0.11"}, webrtc.ICECandidateTypeHost)
 			} else {
 				logger.Infow("using external IPs", "ips", ips)
 				s.SetNAT1To1IPs(ips, webrtc.ICECandidateTypeHost)
@@ -114,7 +114,7 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 
 	if !rtcConf.ForceTCP {
 		networkTypes = append(networkTypes,
-			webrtc.NetworkTypeUDP4,
+			webrtc.NetworkTypeUDP4, webrtc.NetworkTypeUDP6,
 		)
 		if rtcConf.ICEPortRangeStart != 0 && rtcConf.ICEPortRangeEnd != 0 {
 			if err := s.SetEphemeralUDPPortRange(uint16(rtcConf.ICEPortRangeStart), uint16(rtcConf.ICEPortRangeEnd)); err != nil {
