@@ -109,9 +109,6 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 		}
 	}
 
-	logger.Infow("setting srflx candidate 172.171.131.186")
-	s.SetNAT1To1IPs([]string{"172.171.131.186"}, webrtc.ICECandidateTypeSrflx)
-
 	var udpMux ice.UDPMux
 	var err error
 	networkTypes := make([]webrtc.NetworkType, 0, 4)
@@ -218,6 +215,8 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 			c.ICEServers = []webrtc.ICEServer{iceServerForStunServers(DefaultStunServers)}
 		}
 	}
+	logger.Infow("setting iceservers")
+	c.ICEServers = []webrtc.ICEServer{iceServerForStunServers(DefaultStunServers)}
 
 	net, err := stdnet.NewNet()
 	if err != nil {
