@@ -108,6 +108,9 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 		}
 	}
 
+	logger.Infow("setting srflx candidate 172.171.131.186")
+	s.SetNAT1To1IPs([]string{"172.171.131.186"}, webrtc.ICECandidateTypeSrflx)
+
 	var udpMux ice.UDPMux
 	var err error
 	networkTypes := make([]webrtc.NetworkType, 0, 4)
