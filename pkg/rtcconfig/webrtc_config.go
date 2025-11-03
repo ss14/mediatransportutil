@@ -104,6 +104,7 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 			}
 			nat1to1IPs = ips
 		} else {
+			logger.Infow("not using external IP, using node IP for NAT1To1Ips", "ip", rtcConf.NodeIP)
 			s.SetNAT1To1IPs([]string{rtcConf.NodeIP}, webrtc.ICECandidateTypeHost)
 		}
 	}
@@ -210,8 +211,10 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 		// this is not compatible with ICE Lite
 		// Do not automatically add STUN servers if nodeIP is set
 		if len(rtcConf.STUNServers) > 0 {
+			logger.Infow("setting the supplied stun servers")
 			c.ICEServers = []webrtc.ICEServer{iceServerForStunServers(rtcConf.STUNServers)}
 		} else {
+			logger.Infow("setting iceservers")
 			c.ICEServers = []webrtc.ICEServer{iceServerForStunServers(DefaultStunServers)}
 		}
 	}

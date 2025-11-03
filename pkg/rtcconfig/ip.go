@@ -56,6 +56,7 @@ func (conf *RTCConfig) determineIP() (string, error) {
 	// use local ip instead
 	addresses, err := GetLocalIPAddresses(false, nil)
 	if len(addresses) > 0 {
+		logger.Infow("determineIP called", "ip", addresses[0])
 		return addresses[0], err
 	}
 	return "", err
