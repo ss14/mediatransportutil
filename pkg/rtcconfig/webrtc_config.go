@@ -109,8 +109,8 @@ func NewWebRTCConfig(rtcConf *RTCConfig, development bool) (*WebRTCConfig, error
 	// 	}
 	// }
 
-	logger.Infow("not using external IP, using node IP and eth0 ip <-> loopback for NAT1To1Ips", "ip", rtcConf.NodeIP)
 	localIPs, _ := GetLocalIPAddresses(rtcConf.EnableLoopbackCandidate, nil)
+	logger.Infow("setting NAT1To1Ips host type", "node_ip", rtcConf.NodeIP, "localip[0]", localIPs[0], "localip[1]", localIPs[1])
 	s.SetNAT1To1IPs([]string{fmt.Sprintf("%s/%s", localIPs[0], localIPs[1])}, webrtc.ICECandidateTypeHost)
 	s.SetNAT1To1IPs([]string{fmt.Sprintf("%s/%s", rtcConf.NodeIP, localIPs[0])}, webrtc.ICECandidateTypeHost)
 
